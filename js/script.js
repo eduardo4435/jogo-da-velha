@@ -3,7 +3,7 @@ let o = document.querySelector(".o")
 let boxes = document.querySelectorAll(".box")
 let buttons = document.querySelectorAll("#buttons-conteiner button")
 let messageConteiner = document.querySelector("#message")
-let messageText = document.querySelector("#messege p")
+let messageText = document.querySelector("#message p")
 let secondPlayer;
 
 //contador de jogadas
@@ -74,10 +74,10 @@ function checkWinCodition() {
 
         if(b1child == 'x' && b2child == 'x' && b3child == 'x'){
             //x
-            console.log('x venceu')
+            declareWinner('x')
         } else if(b1child == 'o' && b2child == 'o' && b3child == 'o'){
             //o
-            console.log('o venceu')
+            declareWinner('o')
         }
 
         
@@ -90,10 +90,10 @@ function checkWinCodition() {
 
         if(b4child == 'x' && b5child == 'x' && b6child == 'x'){
             //x
-            console.log('x venceu')
+           declareWinner('x')
         } else if(b4child == 'o' && b5child == 'o' && b6child == 'o'){
             //o
-            console.log('o venceu')
+            declareWinner('o')
         }
 
         
@@ -106,10 +106,10 @@ function checkWinCodition() {
 
         if(b7child == 'x' && b8child == 'x' && b9child == 'x'){
             //x
-            console.log('x venceu')
+            declareWinner('x')
         } else if(b7child == 'o' && b8child == 'o' && b9child == 'o'){
             //o
-            console.log('o venceu')
+            declareWinner('o')
         }
 
         
@@ -124,10 +124,10 @@ function checkWinCodition() {
 
         if(b1child == 'x' && b4child == 'x' && b7child == 'x'){
             //x
-            console.log('x venceu')
+            declareWinner('x')
         } else if(b1child == 'o' && b4child == 'o' && b7child == 'o'){
             //o
-            console.log('o venceu')
+            declareWinner('o')
         }
 
         
@@ -140,10 +140,10 @@ function checkWinCodition() {
 
         if(b2child == 'x' && b5child == 'x' && b8child == 'x'){
             //x
-            console.log('x venceu')
+            declareWinner('x')
         } else if(b2child == 'o' && b5child == 'o' && b8child == 'o'){
             //o
-            console.log('o venceu')
+            declareWinner('o')
         }
 
         
@@ -156,10 +156,10 @@ function checkWinCodition() {
 
         if(b3child == 'x' && b6child == 'x' && b9child == 'x'){
             //x
-            console.log('x venceu')
+            declareWinner('x')
         } else if(b3child == 'o' && b6child == 'o' && b9child == 'o'){
             //o
-            console.log('o venceu')
+            declareWinner('o')
         }
 
         
@@ -174,10 +174,10 @@ function checkWinCodition() {
 
         if(b1child == 'x' && b5child == 'x' && b9child == 'x'){
             //x
-            console.log('x venceu')
+            declareWinner('x')
         } else if(b1child == 'o' && b5child == 'o' && b9child == 'o'){
             //o
-            console.log('o venceu')
+           declareWinner('o')
         }
 
         
@@ -190,10 +190,10 @@ function checkWinCodition() {
 
         if(b3child == 'x' && b5child == 'x' && b7child == 'x'){
             //x
-            console.log('x venceu')
+            declareWinner('x')
         } else if(b3child == 'o' && b5child == 'o' && b7child == 'o'){
             //o
-            console.log('o venceu')
+            declareWinner('o')
         }
 
         
@@ -209,6 +209,45 @@ function checkWinCodition() {
     }
 
     if(counter == 9){
-        console.log('deu velha')
+        declareWinner('velha')
+    }
+}
+
+//limpa o jogo, declara o vencedor e limpa o placar
+function declareWinner(winner) {
+    let scoreboardx = document.querySelector("#scoreboard-1")
+    let scoreboardo = document.querySelector("#scoreboard-2")
+    let msg = '';
+
+    if(winner == 'x') {
+        scoreboardx.textContent = parseInt(scoreboardx.textContent) + 1
+        msg = 'O jogador 1 venceu!'
+    } else if (winner == 'o') {
+        scoreboardo.textContent = parseInt(scoreboardo.textContent) + 1
+        msg = 'O jogador 2 venceu!'
+    } else {
+        msg = 'Deu velha!'
+    }
+
+    //exibe mensagem
+    messageText.innerHTML = msg;
+    messageConteiner.classList.remove("hide")
+
+    //esconder a mensagem dnv
+    setTimeout(function() {
+        messageConteiner.classList.add("hide")
+    }, 3000)
+
+    //zera jogadas
+    player1 = 0
+    player2 = 0
+
+    //remove x e o
+    let boxesToRemove = document.querySelectorAll(".box div")
+
+    for (let i = 0; i < boxesToRemove.length; i++){
+        setTimeout(function() {
+            boxesToRemove[i].parentNode.removeChild(boxesToRemove[i])
+        }, 3000)
     }
 }
