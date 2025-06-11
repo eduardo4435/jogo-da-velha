@@ -1,3 +1,7 @@
+* {
+    user-select: none;
+}
+
 body {
     text-align: center;
     font-family: Helvetica, sans-serif;
@@ -33,6 +37,7 @@ h1 {
     border: 5px solid #000;
     box-sizing: border-box;
     flex: 1 1 33%;
+    cursor: pointer;
 }
 
 #block-1, #block-2, #block-3 {
