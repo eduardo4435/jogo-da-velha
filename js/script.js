@@ -21,15 +21,22 @@ for(let i = 0; i < boxes.length; i++){
         //verifica se ja tem x ou o
         if(this.childNodes.length == 0){
             //criando clone do elemento
-            let cloneEl = el.cloneNode(true)
+            let cloneEl = el.cloneNode(true);
             //adicionando o clone
             this.appendChild(cloneEl);
 
             //contabilizar jogada
             if(player1 == player2){
             player1++
+
+            if(secondPlayer == 'ai-player') {
+                // funcao executar a jogada
+                computerPlay();
+                player2++;
+            }
+
             } else{
-            player2++
+            player2++;
             }
 
             //checa se alguem venceu
@@ -37,6 +44,26 @@ for(let i = 0; i < boxes.length; i++){
         }
 
     })
+}
+
+// evento para saber se e dois player ou IA
+for(let i = 0; i < buttons.length; i++) {
+
+    buttons[i].addEventListener("click", function() {
+
+        secondPlayer = this.getAttribute("id");
+
+        for(let j = 0; j < buttons.length; j++){
+            buttons[j].style.display = 'none'
+        }
+
+        setTimeout(function() {
+            let conteiner = document.querySelector('#conteiner')
+            conteiner.classList.remove("hide")
+        }, 500)
+
+    })
+
 }
 
 // ver quem vai jogar 
@@ -246,8 +273,37 @@ function declareWinner(winner) {
     let boxesToRemove = document.querySelectorAll(".box div")
 
     for (let i = 0; i < boxesToRemove.length; i++){
+        
+        //bloqueando o click no tabuleiro
+        boxesToRemove[i].classList.add("desaparecendo");
+
         setTimeout(function() {
             boxesToRemove[i].parentNode.removeChild(boxesToRemove[i])
         }, 3000)
+
+    }
+}
+
+// executar a logica da jogada da CPU
+
+function computerPlay() {
+    let cloneO = o.cloneNode(true);
+    let counter = 0;
+    let filled = 0;
+
+    for(let i = 0; i < boxes.length; i++) {
+        if(boxes[i].childNodes[0] != undefined) {
+            filled++;
+        }
+    }
+
+    if(filled < 9) {
+        let rand = Math.floor(Math.random() * 9);
+
+        while(boxes[rand].childNodes.length > 0) {
+            rand = Math.floor(Math.random() * 9);
+        }
+
+        boxes[rand].appendChild(cloneO);
     }
 }

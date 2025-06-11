@@ -1,6 +1,4 @@
-* {
-    user-select: none;
-}
+
 
 body {
     text-align: center;
@@ -13,10 +11,14 @@ h1 {
 
 /* botões */
 
+
 #buttons-conteiner button {
     border: none;
-    padding-top: 10px 15px;
+    padding: 10px 15px;
     margin: 0 10px;
+    cursor: pointer;
+    border-radius: 15px;
+    box-shadow:  5px 5px  #00000052;
 }
 
 /* jogo */
@@ -30,6 +32,11 @@ h1 {
     position: relative;
     margin-left: auto;
     margin-right: auto;
+}
+
+.desaparecendo {
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .box {
@@ -63,6 +70,7 @@ h1 {
     color: red;
     display: inline-block;
     line-height: 100px;
+    user-select: none;
 }
 
 .o {
@@ -89,6 +97,9 @@ h1 {
     position: relative;
     margin-left: auto;
     margin-right: auto;
+    background-color: rgb(201, 195, 195);
+    border-radius: 15px;
+    padding: 5px 40px;
 }
 
 .score-box {
@@ -118,9 +129,11 @@ h1 {
     left: 0;
     right: 0;
     top: 150px;
-    width: 500px;
+    width: 90%;
     font-size: 50px;
-    background-color: #000;
+    background: linear-gradient(#2a6e22, #0cd420, #2a6e22);
     color: #fff;
     padding: 20px;
+    border-radius: 15px;
+    font-family: 'Courier New', Courier, monospace;
 }
