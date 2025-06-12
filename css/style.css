@@ -131,9 +131,29 @@ h1 {
     top: 150px;
     width: 90%;
     font-size: 50px;
-    background: linear-gradient(#2a6e22, #0cd420, #2a6e22);
     color: #fff;
     padding: 20px;
     border-radius: 15px;
     font-family: 'Courier New', Courier, monospace;
+}
+
+.bg-red {
+  background-color: red;
+  color: white; /* só pra melhorar a visibilidade do texto */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.bg-green {
+  background-color: green;
+  color: white; /* só pra melhorar a visibilidade do texto */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.bg-gray {
+  background-color: gray;
+  color: white; /* só pra melhorar a visibilidade do texto */
+  padding: 10px;
+  border-radius: 5px;
 }

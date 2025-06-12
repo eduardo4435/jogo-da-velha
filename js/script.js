@@ -81,162 +81,59 @@ function checkEl(p1, p2) {
 
 // ver quem ganhou
 function checkWinCodition() {
+    
+    // Monta a matriz 3x3 com o valor de cada posição: 'x', 'o' ou null
+    let matrix = [];
 
-    let b1 = document.getElementById("block-1")
-    let b2 = document.getElementById("block-2")
-    let b3 = document.getElementById("block-3")
-    let b4 = document.getElementById("block-4")
-    let b5 = document.getElementById("block-5")
-    let b6 = document.getElementById("block-6")
-    let b7 = document.getElementById("block-7")
-    let b8 = document.getElementById("block-8")
-    let b9 = document.getElementById("block-9")
-
-    //horizontal
-    if(b1.childNodes.length > 0 && b2.childNodes.length > 0 && b3.childNodes.length > 0) {
-
-        let b1child = b1.childNodes[0].className;
-        let b2child = b2.childNodes[0].className;
-        let b3child = b3.childNodes[0].className;
-
-        if(b1child == 'x' && b2child == 'x' && b3child == 'x'){
-            //x
-            declareWinner('x')
-        } else if(b1child == 'o' && b2child == 'o' && b3child == 'o'){
-            //o
-            declareWinner('o')
-        }
-
-        
-    }
-    if(b4.childNodes.length > 0 && b5.childNodes.length > 0 && b6.childNodes.length > 0) {
-
-        let b4child = b4.childNodes[0].className;
-        let b5child = b5.childNodes[0].className;
-        let b6child = b6.childNodes[0].className;
-
-        if(b4child == 'x' && b5child == 'x' && b6child == 'x'){
-            //x
-           declareWinner('x')
-        } else if(b4child == 'o' && b5child == 'o' && b6child == 'o'){
-            //o
-            declareWinner('o')
-        }
-
-        
-    }
-    if(b7.childNodes.length > 0 && b8.childNodes.length > 0 && b9.childNodes.length > 0) {
-
-        let b7child = b7.childNodes[0].className;
-        let b8child = b8.childNodes[0].className;
-        let b9child = b9.childNodes[0].className;
-
-        if(b7child == 'x' && b8child == 'x' && b9child == 'x'){
-            //x
-            declareWinner('x')
-        } else if(b7child == 'o' && b8child == 'o' && b9child == 'o'){
-            //o
-            declareWinner('o')
-        }
-
-        
-    }
-
-    //vertical
-    if(b1.childNodes.length > 0 && b4.childNodes.length > 0 && b7.childNodes.length > 0) {
-
-        let b1child = b1.childNodes[0].className;
-        let b4child = b4.childNodes[0].className;
-        let b7child = b7.childNodes[0].className;
-
-        if(b1child == 'x' && b4child == 'x' && b7child == 'x'){
-            //x
-            declareWinner('x')
-        } else if(b1child == 'o' && b4child == 'o' && b7child == 'o'){
-            //o
-            declareWinner('o')
-        }
-
-        
-    }
-    if(b2.childNodes.length > 0 && b5.childNodes.length > 0 && b8.childNodes.length > 0) {
-
-        let b2child = b2.childNodes[0].className;
-        let b5child = b5.childNodes[0].className;
-        let b8child = b8.childNodes[0].className;
-
-        if(b2child == 'x' && b5child == 'x' && b8child == 'x'){
-            //x
-            declareWinner('x')
-        } else if(b2child == 'o' && b5child == 'o' && b8child == 'o'){
-            //o
-            declareWinner('o')
-        }
-
-        
-    }
-    if(b3.childNodes.length > 0 && b6.childNodes.length > 0 && b9.childNodes.length > 0) {
-
-        let b3child = b3.childNodes[0].className;
-        let b6child = b6.childNodes[0].className;
-        let b9child = b9.childNodes[0].className;
-
-        if(b3child == 'x' && b6child == 'x' && b9child == 'x'){
-            //x
-            declareWinner('x')
-        } else if(b3child == 'o' && b6child == 'o' && b9child == 'o'){
-            //o
-            declareWinner('o')
-        }
-
-        
-    }
-
-    //diagonal
-    if(b1.childNodes.length > 0 && b5.childNodes.length > 0 && b9.childNodes.length > 0) {
-
-        let b1child = b1.childNodes[0].className;
-        let b5child = b5.childNodes[0].className;
-        let b9child = b9.childNodes[0].className;
-
-        if(b1child == 'x' && b5child == 'x' && b9child == 'x'){
-            //x
-            declareWinner('x')
-        } else if(b1child == 'o' && b5child == 'o' && b9child == 'o'){
-            //o
-           declareWinner('o')
-        }
-
-        
-    }
-    if(b3.childNodes.length > 0 && b5.childNodes.length > 0 && b7.childNodes.length > 0) {
-
-        let b3child = b3.childNodes[0].className;
-        let b5child = b5.childNodes[0].className;
-        let b7child = b7.childNodes[0].className;
-
-        if(b3child == 'x' && b5child == 'x' && b7child == 'x'){
-            //x
-            declareWinner('x')
-        } else if(b3child == 'o' && b5child == 'o' && b7child == 'o'){
-            //o
-            declareWinner('o')
-        }
-
-        
-    }
-
-    //deu velha
-    let counter = 0;
-
-    for(let i = 0; i < boxes.length; i++){
-        if(boxes[i].childNodes[0] != undefined) {
-            counter++
+    for (let i = 0; i < 3; i++) {
+        matrix[i] = [];
+        for (let j = 0; j < 3; j++) {
+            let boxIndex = i * 3 + j; // mapeia linha e coluna para o índice do box
+            let box = boxes[boxIndex];
+            if (box.childNodes.length > 0) {
+                matrix[i][j] = box.childNodes[0].className; // 'x' ou 'o'
+            } else {
+                matrix[i][j] = null;
+            }
         }
     }
 
-    if(counter == 9){
-        declareWinner('velha')
+    // Função auxiliar para checar se 3 valores são iguais e não nulos
+    function checkLine(a, b, c) {
+        return (a !== null) && (a === b) && (b === c);
+    }
+
+    // Checar linhas
+    for (let i = 0; i < 3; i++) {
+        if (checkLine(matrix[i][0], matrix[i][1], matrix[i][2])) {
+            declareWinner(matrix[i][0]);
+            return;
+        }
+    }
+
+    // Checar colunas
+    for (let j = 0; j < 3; j++) {
+        if (checkLine(matrix[0][j], matrix[1][j], matrix[2][j])) {
+            declareWinner(matrix[0][j]);
+            return;
+        }
+    }
+
+    // Checar diagonais
+    if (checkLine(matrix[0][0], matrix[1][1], matrix[2][2])) {
+        declareWinner(matrix[0][0]);
+        return;
+    }
+    if (checkLine(matrix[0][2], matrix[1][1], matrix[2][0])) {
+        declareWinner(matrix[0][2]);
+        return;
+    }
+
+    // Checar empate (velha)
+    let filledBoxes = boxes.length - Array.from(boxes).filter(box => box.childNodes.length === 0).length;
+
+    if (filledBoxes === 9) {
+        declareWinner('velha');
     }
 }
 
@@ -248,11 +145,17 @@ function declareWinner(winner) {
 
     if(winner == 'x') {
         scoreboardx.textContent = parseInt(scoreboardx.textContent) + 1
+        messageText.classList.remove('bg-red', 'bg-green', 'bg-gray');
+        messageText.classList.add('bg-red');
         msg = 'O jogador 1 venceu!'
     } else if (winner == 'o') {
         scoreboardo.textContent = parseInt(scoreboardo.textContent) + 1
+        messageText.classList.remove('bg-red', 'bg-green', 'bg-gray')
+        messageText.classList.add('bg-green');
         msg = 'O jogador 2 venceu!'
     } else {
+        messageText.classList.remove('bg-red', 'bg-green', 'bg-gray')
+        messageText.classList.add('bg-gray');
         msg = 'Deu velha!'
     }
 
@@ -272,16 +175,10 @@ function declareWinner(winner) {
     //remove x e o
     let boxesToRemove = document.querySelectorAll(".box div")
 
-    for (let i = 0; i < boxesToRemove.length; i++){
-        
-        //bloqueando o click no tabuleiro
-        boxesToRemove[i].classList.add("desaparecendo");
-
-        setTimeout(function() {
-            boxesToRemove[i].parentNode.removeChild(boxesToRemove[i])
-        }, 3000)
-
+    for(let i = 0; i < boxesToRemove.length; i++){
+        boxesToRemove[i].parentNode.removeChild(boxesToRemove[i])
     }
+
 }
 
 // executar a logica da jogada da CPU
