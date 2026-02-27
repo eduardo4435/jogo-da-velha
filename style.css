@@ -1,0 +1,181 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Changa+One:ital@0;1&family=Gravitas+One&family=Passion+One:wght@400;700;900&family=Sriracha&display=swap');
+
+.passion-one-bold {
+  font-family: "Passion One", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#title-game {
+    font-family: "Passion One", sans-serif;;
+    font-size: 4em;
+    padding: 30px;
+    margin: auto;
+}
+
+#buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+#buttons-container button {
+    width: 40%;
+    height: 60px;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    border: none;
+    cursor: pointer;
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bolder;
+    transition: .2s;
+}
+
+#buttons-container button:hover {
+    color: red;
+    transform: translateY(-5px);
+}
+
+#buttons-container button:active {
+    transform: scale(0.95);
+}
+
+#container {
+    display: flex;
+    width: 300px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 40px;
+}
+
+.box {
+    height: 100px;
+    border: 5px solid black;
+    flex: 1 1 33%;
+    text-align: center;
+    cursor: pointer;
+    
+}
+
+#block-1, #block-2, #block-3 {
+    border-top: none;
+}
+
+#block-1, #block-4, #block-7 {
+    border-left: none;
+}
+
+#block-7, #block-8, #block-9 {
+    border-bottom: none;
+}
+
+#block-3, #block-6, #block-9 {
+    border-right: none;
+}
+
+.x {
+    font-size: 65px;
+    color: red;
+    display: inline-block;
+    line-height: 100px;
+}
+
+.o {
+    width: 50px;
+    height: 50px;
+    border: 5px solid green;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 17px;
+}
+
+/* .hide {
+    display: none !important;
+} */
+
+#scoreboard-container {
+    font-weight: bold;
+    margin-top: 30px;
+    font-size: 25px;
+    flex-basis: 100%;
+    text-align: center;
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+#score {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#title-placar {
+    margin: 5px;
+}
+
+#x-scoreboard {
+    color: red;
+    font-weight: bolder;
+    transform: translateY(5px);
+}
+
+#o-scoreboard {
+    color: green;
+    font-weight: bolder;
+    transform: translateY(4px);
+}
+
+#message {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 0.5s ease;
+    background-image: linear-gradient(#1aae1f, #159519, #1aae1f);
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#message.show {
+    top: 20px;
+}
+
+#message p::after {
+    content: "\1F3C6"
+}
+
+.win {
+    animation: blink 0.6s ease-in-out 3;
+}
+
+@keyframes blink {
+    0% { background-color: transparent; }
+    50% { background-color: #0fa6d89c; }
+    100% { background-color: transparent; }
+}
+
