@@ -2,6 +2,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Changa+One:ital@0;1&family=Gravitas+One&family=Passion+One:wght@400;700;900&family=Sriracha&display=swap');
 
+@keyframes blink {
+    0% { background-color: transparent; }
+    50% { background-color: #0fa6d89c; }
+    100% { background-color: transparent; }
+}
+
 .passion-one-bold {
   font-family: "Passion One", sans-serif;
   font-weight: 700;
@@ -25,7 +31,7 @@ body {
 
 #title-game {
     font-family: "Passion One", sans-serif;;
-    font-size: 4em;
+    font-size: 3em;
     padding: 30px;
     margin: auto;
 }
@@ -108,9 +114,9 @@ body {
     margin-top: 17px;
 }
 
-/* .hide {
+.hide {
     display: none !important;
-} */
+}
 
 #scoreboard-container {
     font-weight: bold;
@@ -173,9 +179,4 @@ body {
     animation: blink 0.6s ease-in-out 3;
 }
 
-@keyframes blink {
-    0% { background-color: transparent; }
-    50% { background-color: #0fa6d89c; }
-    100% { background-color: transparent; }
-}
 

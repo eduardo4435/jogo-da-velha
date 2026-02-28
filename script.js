@@ -6,8 +6,15 @@ let buttons = document.querySelectorAll("#buttons-container button");
 let messageContainer = document.querySelector("#message");
 let messageText = document.querySelector("#message p");
 
-// alterna a vez do jogador
-/* let secondPlayer; */
+let gameMode = null;
+
+buttons[0].addEventListener("click", function() {
+    startGame("pvp");
+});
+
+buttons[1].addEventListener("click", function() {
+    startGame("ai");
+});
 
 // Contador de jogadas
 let player1 = 0;
@@ -22,6 +29,7 @@ for(let i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener("click", function() {
 
         if (gameOver) return;
+        if (gameMode === "ai" && player1 !== player2) return;
 
         let vez = checkVez(player1, player2);
 
@@ -40,20 +48,12 @@ for(let i = 0; i < boxes.length; i++) {
             }
 
             checkWinCondition();
+
+            if(gameMode === "ai" && !gameOver) {
+                setTimeout(aiMove, 500);
+            }
         }
     })
-}
-
-//alterna a vez de quem joga
-function checkVez(player1, player2) {
-
-    if(player1 == player2) {
-        vez = x;
-    } else {
-        vez = o;
-    }
-
-    return vez;
 }
 
 const blocks = [];
@@ -73,6 +73,35 @@ const winConditions = [
     [0,4,8], // diagonal esquerda para baixo
     [2,4,6]  // diagonal direta para baixo
 ];
+
+function startGame(mode) {
+    gameMode = mode;
+
+    document.getElementById("menu-game").classList.add("hide");
+    document.getElementById("container").classList.remove("hide");
+}
+
+//alterna a vez de quem joga
+function checkVez(player1, player2) {
+    return player1 === player2 ? x : o;
+}
+
+//fucao que faz a ia jogar
+function aiMove() {
+
+    let emptyBlocks = blocks.filter(block => block.children.length === 0);
+
+    if (emptyBlocks.length === 0) return;
+
+    let randomBlock = emptyBlocks[Math.floor(Math.random() * emptyBlocks.length)];
+
+    let cloneO = o.cloneNode(true);
+    randomBlock.appendChild(cloneO);
+
+    player2++;
+
+    checkWinCondition();
+}
 
 // funcao que checa vitoria ou empate no final no jogo
 function checkWinCondition() {
@@ -125,7 +154,6 @@ function handleWin(winner, winningBlocks) {
     //piscar blocos vencedores
     winningBlocks.forEach(index => {
         blocks[index].classList.add("win");
-        //blocks[index].classList.remove("box:hover");
     });
 
     //atualizar placar
