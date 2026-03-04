@@ -1,68 +1,79 @@
-// Variaveis dos elementos html
+import { GameController } from "./modules/GameController.js";
+import { aiMove } from "./modules/AIController.js";
+import { showWinMessage, showDrawMessage, resetScore } from "./modules/UIController.js";
+
+// elementos html
 let x = document.querySelector(".x");
 let o = document.querySelector(".o");
 let boxes = document.querySelectorAll(".box");
 let buttons = document.querySelectorAll("#buttons-container button");
 let messageContainer = document.querySelector("#message");
 let messageText = document.querySelector("#message p");
+let resetScoreBtn = document.querySelector("#reset-score"); 
+let backMenuBtn = document.querySelector("#back-menu");
 
-let gameMode = null;
+GameController.loadScore();
 
-buttons[0].addEventListener("click", function() {
-    startGame("pvp");
-});
+//botoes
+buttons[0].addEventListener("click", () => startGame("pvp"));
+buttons[1].addEventListener("click", () => startGame("ai"));
+resetScoreBtn.addEventListener("click", resetScore);
+backMenuBtn.addEventListener("click", backToMenu);
 
-buttons[1].addEventListener("click", function() {
-    startGame("ai");
-});
+function startGame(mode) {
 
-// Contador de jogadas
-let player1 = 0;
-let player2 = 0;
+    if (GameController.gameMode && GameController.gameMode !== mode) {
 
-// serve para bloquear o tabuleiro quando alguem vencer
-let gameOver = false;
+        GameController.resetScore();
+        resetScore();
+    }
 
-// Adicionando o evento de click aos boxes
+    GameController.start(mode);
+
+    document.getElementById("menu-game").classList.add("hide");
+    document.getElementById("container").classList.remove("hide");
+}
+
+// blocos do tabuleiro
+const blocks = [];
+for(let i = 1; i <= 9; i++){
+    blocks.push(document.getElementById(`block-${i}`));
+}
+
+//evento de click nos blocos
 for(let i = 0; i < boxes.length; i++) {
 
     boxes[i].addEventListener("click", function() {
 
-        if (gameOver) return;
-        if (gameMode === "ai" && player1 !== player2) return;
+        if (GameController.gameOver) return;
+        if (GameController.isAITurn()) return;
 
-        let vez = checkVez(player1, player2);
+        let vez = GameController.isPlayerTurn() ? x : o;
 
         // Verifica de tem x ou o
         if(this.children.length == 0) {
 
-            //duplicando o elemento para adicionar ao boxe
+            //duplica o elemento para adicionar ao boxe
             let cloneVez = vez.cloneNode(true);
             this.appendChild(cloneVez);
 
-            //computar Jogada
-            if(player1 == player2) {
-                player1++;
-            } else {
-                player2++;
-            }
+            //computa Jogada
+            GameController.addMove();
 
             checkWinCondition();
 
-            if(gameMode === "ai" && !gameOver) {
-                setTimeout(aiMove, 500);
+            if(GameController.gameMode === "ai" && !GameController.gameOver) {
+                setTimeout(() => {
+                    aiMove(blocks, o, GameController, checkWinCondition);
+                }, 500);
             }
         }
     })
 }
 
-const blocks = [];
 
-for(let i = 1; i <= 9; i++){
-    blocks.push(document.getElementById(`block-${i}`));
-}
 
-// array de arrays para guarda condicoes de vitoria
+// array bidimensional, guarda a condicao de vitoria
 const winConditions = [
     [0,1,2], // horizontal cima
     [3,4,5], // horizontal meio
@@ -74,36 +85,7 @@ const winConditions = [
     [2,4,6]  // diagonal direta para baixo
 ];
 
-function startGame(mode) {
-    gameMode = mode;
-
-    document.getElementById("menu-game").classList.add("hide");
-    document.getElementById("container").classList.remove("hide");
-}
-
-//alterna a vez de quem joga
-function checkVez(player1, player2) {
-    return player1 === player2 ? x : o;
-}
-
-//fucao que faz a ia jogar
-function aiMove() {
-
-    let emptyBlocks = blocks.filter(block => block.children.length === 0);
-
-    if (emptyBlocks.length === 0) return;
-
-    let randomBlock = emptyBlocks[Math.floor(Math.random() * emptyBlocks.length)];
-
-    let cloneO = o.cloneNode(true);
-    randomBlock.appendChild(cloneO);
-
-    player2++;
-
-    checkWinCondition();
-}
-
-// funcao que checa vitoria ou empate no final no jogo
+//verificacao de vitoria
 function checkWinCondition() {
 
     let winner = null;
@@ -135,7 +117,7 @@ function checkWinCondition() {
 
     //declara o vencedor
     if (winner) {
-        gameOver = true;
+        GameController.finishGame();
         handleWin(winner, winningBlocks);
         return;
     }
@@ -144,11 +126,12 @@ function checkWinCondition() {
     const allFilled = blocks.every(block => block.children.length > 0);
 
     if (allFilled) {
-        gameOver = true;
+        GameController.finishGame();
         handleDraw();
     }
 }
 
+//tratamento de vitoria
 function handleWin(winner, winningBlocks) {
     
     //piscar blocos vencedores
@@ -163,32 +146,28 @@ function handleWin(winner, winningBlocks) {
         document.querySelector("#scoreboard-2").innerText++;
     }
 
+    GameController.saveScore();
+
     //mostra mensagem de vencedor
     setTimeout(() => {
-
-        messageText.innerText = winner.toUpperCase() + " Venceu!";
-        messageContainer.classList.remove("hide");
-        messageContainer.classList.add("show");
-
-    }, 1800)
+        showWinMessage(winner, messageContainer, messageText)
+    }, 1800);
 
     // limpar tabuleiro
     setTimeout(resetGame, 3500);
 }
 
+//empate
 function handleDraw() {
 
     setTimeout(() => {
-
-        messageText.innerText = "Deu velha!";
-        messageContainer.classList.remove("hide");
-        messageContainer.classList.add("show");
-
-    }, 500);
+        showDrawMessage(messageContainer, messageText);
+        }, 500);
 
     setTimeout(resetGame, 3000);
 }
 
+//reset
 function resetGame() {
 
     blocks.forEach(block => {
@@ -199,7 +178,13 @@ function resetGame() {
     messageContainer.classList.remove("show");
     messageContainer.classList.add("hide");
 
-    player1 = 0;
-    player2 = 0;
-    gameOver = false;
+    GameController.reset();
+}
+
+function backToMenu() {
+
+    resetGame();
+
+    document.getElementById("container").classList.add("hide");
+    document.getElementById("menu-game").classList.remove("hide");
 }

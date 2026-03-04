@@ -65,6 +65,21 @@ body {
     transform: scale(0.95);
 }
 
+.buttons-back {
+    background-color: gray;
+    border-radius: 5px;
+    padding: 10px;
+    border: 2px, solid gray;
+    margin-top: 10px;
+    transition: .3s;
+    font-weight: bold;
+}
+
+.buttons-back:hover {
+    border: 2px, solid red;
+    color: red;
+}
+
 #container {
     display: flex;
     width: 300px;
